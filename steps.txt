@@ -1,0 +1,13 @@
+
+
+Step 1:
+    Initialize npm project...
+        -> npm init -y
+
+Step 2:
+    install mongoosse , express , ejs
+        -> npm i mongoose,//to connect node.js with mongodb database
+        -> npm i express,
+        -> npm i ejs
+
+Step 3:

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/add-class.css">
+    <link rel="stylesheet" href="/utility-main.css">
+    <title>Document</title>
+</head>
+
+<body>
+    <div class="navbar left m1 rounded">
+        <div class="m1  rounded p1 ali-txt bg-gray">
+            <img src="/attendo-logo.png" alt="attendo-logo">
+        </div>
+        <div class=" m1 rounded p1 bg-gray">
+            <ul>
+                <li class="clickable"><a href="/take-attendance">Mark Attendance</a></li>
+                <li class="clickable"><a href="/get-report">Attendance Report</a></li>
+                <li class="clickable"><a href="/add-student">Manage Students</a></li>
+                <li class="clickable"><a href="/add-class">Manage Classes</a></li>
+            </ul>
+        </div>
+        <div class=" m1 rounded p1 bg-gray">
+            <ul>
+                <li class="clickable"><a href="/promote-student">Promote Students</a></li>
+            </ul>
+        </div>
+    </div>
+
+
+
+    <!-- Main Page -->
+    
+    <div id="main-content" class=" m1 rounded p1">
+        <div class="container flex-c">
+            <h2>Add New Class</h2>
+            <!-- Add Class Form -->
+            <div class="form-container">
+                <!-- Class name box -->
+                <div class="class-container flex-c2">
+                    <label for="class-name">Class Name:</label>
+                    <input type="text" id="class-name"  name="className" required>
+                </div>
+                <!-- Subject Name Box -->
+                <div id="subject-container" class="subjects flex-c2">
+
+                </div>
+
+                
+                <button type="button" id="add-subject-btn">+ Add Subject</button>
+                <button type="button" id="submit-class-btn">Submit Class</button>
+            </div>
+
+            <!-- Delete Class Form -->
+            <div class="container flex-c m1 rounded p1">
+                <h2>Remove Class</h2>
+                <div class="form-container">
+                    <select id="class-select" name="ClassId">
+                        <option value="">-- Select Class --</option>
+                        <% classes.forEach(cls=> { %>
+                            <option value="<%= cls._id %>">
+                                <%= cls.ClassName %>
+                            </option>
+                            <% }) %>
+                    </select>
+                    <button id="del-btn" disabled>Delete</button>
+                </div>
+            </div>
+        </div>
+
+
+
+    </div>
+    <script src="/add-class.js"></script>
+</body>
+
+</html>

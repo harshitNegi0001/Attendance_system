@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/promote-student.css">
+    <link rel="stylesheet" href="/utility-main.css">
+    <title>Document</title>
+</head>
+
+<body>
+    <div class="navbar left m1 rounded">
+        <div class="m1  rounded p1 ali-txt bg-gray">
+            <img src="/attendo-logo.png" alt="attendo-logo">
+        </div>
+        <div class=" m1 rounded p1 bg-gray">
+            <ul>
+                <li class="clickable"><a href="/take-attendance">Mark Attendance</a></li>
+                <li class="clickable"><a href="/get-report">Attendance Report</a></li>
+                <li class="clickable"><a href="/add-student">Manage Students</a></li>
+                <li class="clickable"><a href="/add-class">Manage Classes</a></li>
+                
+            </ul>
+        </div>
+        <div class=" m1 rounded p1 bg-gray">
+            <ul>
+                <li class="clickable"><a href="/promote-student">Promote Students</a></li>
+            </ul>
+        </div>
+    </div>
+    <div id="main-content" class=" m1 rounded p1">
+        <div class="container flex-c">
+            <h2>Change Students Class</h2>
+
+            <div class="change-class">
+                <div>
+                    <label for="class-select">Select Students from :</label>
+                    <select id="class-select">
+                        <option value="">-- Select Class --</option>
+                        <% classes.forEach(cls=> { %>
+                            <option value="<%= cls._id %>">
+                                <%= cls.ClassName %>
+                            </option>
+                            <% }) %>
+                    </select>
+                </div>
+
+                <div id="student-section" style="display:none;">
+                    <div id="student-list">
+
+                    </div>
+
+                </div>
+
+                <div id="class-select2" style="display: none;">
+                    <select id="new-class-select">
+                        <option value="">-- Select Class --</option>
+                        <% classes.forEach(cls=> { %>
+                            <option value="<%= cls._id %>">
+                                <%= cls.ClassName %>
+                            </option>
+                            <% }) %>
+                    </select>
+                </div>
+                <button id="shift-button" style="display:none;">Shift Selected Students</button>
+
+
+            </div>
+        </div>
+
+    </div>
+    <script src="/promote-student.js"></script>
+</body>
+
+</html>

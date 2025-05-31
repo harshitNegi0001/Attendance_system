@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/add-student.css">
+    <link rel="stylesheet" href="/utility-main.css">
+    
+    <title>attendance-report</title>
+</head>
+
+<body>
+    <div class="navbar left m1 rounded">
+        <div class="m1  rounded p1 ali-txt bg-gray">
+            <img src="/attendo-logo.png" alt="attendo-logo">
+        </div>
+        <div class=" m1 rounded p1 bg-gray">
+            <ul>
+                <li class="clickable"><a href="/take-attendance" >Mark Attendance</a></li>
+                <li class="clickable"><a href="/get-report">Attendance Report</a></li>
+                <li class="clickable"><a href="/add-student">Manage Students</a></li>
+                <li class="clickable"><a href="/add-class">Manage Classes</a></li>
+            </ul>
+        </div>
+        <div class=" m1 rounded p1 bg-gray">
+            <ul>
+                <li class="clickable"><a href="/promote-student">Promote Students</a></li>
+            </ul>
+        </div>
+    </div>
+    <div id="main-content" class=" m1 rounded p1">
+        <div class="flex-c">
+            <!-- Add Student Section -->
+             <h2>Add New Student</h2>
+            <div class="add-student">
+                <div >
+                    <label>Roll No:</label><br />
+                    <input type="text" name="RollNo" id="rollno" aria-autocomplete="none" required/><br /><br />
+
+                    <label >Name:</label><br />
+                    <input type="text" name="Name" id="name" aria-autocomplete="none" required /><br /><br />
+
+                    <label>Email:</label><br />
+                    <input type="email" name="Email" id="email" required aria-autocomplete="none"/><br /><br />
+
+                    <label for="class-select">Select Class :</label>
+                    <select id="class-select" name="ClassId" >
+                        <option value="">-- Select Class --</option>
+                        <% classes.forEach(cls=> { %>
+                            <option value="<%= cls._id %>" >
+                                <%= cls.ClassName %>
+                            </option>
+                            <% }) %>
+                    </select><br><br>
+
+                    <button type="submit" id="sub-btn">Add Student</button>
+                </div>
+            </div>
+
+            <!-- Remove Student Section -->
+             <h2>Remove Student</h2>
+            <div class="remove-student">
+                
+                <div >
+                    <label>Roll No:</label><br />
+                    <input type="text" name="RollNo" id="del-roll" required autocomplete="off"/><br /><br />
+
+                    <label>Confirm Roll No:</label><br />
+                    <input type="text" name="confirmRollno" id="confirm-roll" required autocomplete="off"/><br /><br />
+
+                    <button type="submit" style="background-color:red; color:white;" id="del-btn">Delete Student</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="/add-student.js"></script>
+</body>
+
+</html>

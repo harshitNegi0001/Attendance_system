@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Take Attendance</title>
+  <link rel="stylesheet" href="/take-attendance.css">
+  <link rel="stylesheet" href="/utility-main.css">
+</head>
+
+<body>
+  <div class="navbar left m1 rounded">
+    <div class="m1  rounded p1 ali-txt bg-gray">
+      <img src="/attendo-logo.png" alt="attendo-logo">
+    </div>
+    <div class=" m1 rounded p1 bg-gray">
+      <ul>
+        <li class="clickable"><a href="/take-attendance">Mark Attendance</a></li>
+        <li class="clickable"><a href="/get-report">Attendance Report</a></li>
+        <li class="clickable"><a href="/add-student">Manage Students</a></li>
+        <li class="clickable"><a href="/add-class">Manage Classes</a></li>
+      </ul>
+    </div>
+    <div class=" m1 rounded p1 bg-gray">
+            <ul>
+                <li class="clickable"><a href="/promote-student">Promote Students</a></li>
+            </ul>
+        </div>
+  </div>
+
+  <!-- MAIN PAGE -->
+
+  <div id="main-content" class=" m1 rounded p1">
+    <div class="container flex-c">
+      <h2>Take Attendance</h2>
+      <!-- it will display class options -->
+      <div><label for="class-select">Select Class:</label>
+        <select id="class-select">
+          <option value="">-- Select Class --</option>
+          <% classes.forEach(cls=> { %>
+            <option value="<%= cls._id %>" >
+              <%= cls.ClassName %>
+            </option>
+            <% }) %>
+        </select>
+      </div>
+      
+      <div id="student-section" style="display: none;">
+        <h3>Mark Attendance:</h3>
+        <div id="attendance-form" class="flex-c2" >
+         
+          <!-- Date Input -->
+          <label for="date">Select Date:</label>
+          <input type="date" name="Date" id="date" required>
+          <!-- Subject Input -->
+          <div id="subject-section" style="display: none;">
+            <p>Select Subject:</p>
+            <div id="subject-options">
+
+            </div>
+          </div>
+          <div id="student-list">
+            
+          </div>
+         <button id="button">Submit Attendance</button>
+         
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="/take-attendance.js"></script>
+</body>
+
+</html>

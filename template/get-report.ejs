@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="/utility-main.css">
+    <link rel="stylesheet" href="/get-report.css">
+    <title>Document</title>
+
+</head>
+
+<body>
+    <div class="navbar left m1 rounded">
+        <div class="m1  rounded p1 ali-txt bg-gray">
+            <img src="/attendo-logo.png" alt="attendo-logo">
+        </div>
+        <div class=" m1 rounded p1 bg-gray">
+            <ul>
+                <li class="clickable"><a href="/take-attendance">Mark Attendance</a></li>
+                <li class="clickable"><a href="/get-report">Attendance Report</a></li>
+                <li class="clickable"><a href="/add-student">Manage Students</a></li>
+                <li class="clickable"><a href="/add-class">Manage Classes</a></li>
+            </ul>
+        </div>
+        <div class=" m1 rounded p1 bg-gray">
+            <ul>
+                <li class="clickable"><a href="/promote-student">Promote Students</a></li>
+            </ul>
+        </div>
+    </div>
+
+
+
+    <!-- Main Page -->
+    <div id="main-content" class=" m1 rounded p1">
+        <div class="container flex-c">
+            <h2>Daily Report</h2>
+
+            <!-- Generate report by date and subject -->
+            <div class="daily-report">
+                <div>
+                    <!-- Select Date -->
+                    <label for="set-date" style="margin: 5px;"> Select date : </label>
+                    <input type="date" id="set-date" name="Date">
+                </div>
+                <div>
+                    <!-- Select Class -->
+                    <label for="class-select" style="margin: 5px;">Select Class : </label>
+                    <select id="class-select">
+                        <option value="">-- Select Class --</option>
+                        <% classes.forEach(cls=> { %>
+                            <option value="<%= cls._id %>">
+                                <%= cls.ClassName %>
+                            </option>
+                            <% }) %>
+                    </select>
+                </div>
+                <!-- Subject Options -->
+                <div id="subject-section" style="display: none;">
+                    <p>Select Subject:</p>
+                    <div id="subject-options">
+
+                    </div>
+                </div>
+                <button id="btn1" disabled>get report</button>
+                <div id="student-section" style="display: none;">
+
+                </div>
+            </div>
+
+            <!-- Generate overall semester report -->
+            <h2>Semester Report</h2>
+            <div class="sem-report">
+                <!-- select class -->
+                <select id="class-select2">
+                    <option value="">-- Select Class --</option>
+                    <% classes.forEach(cls=> { %>
+                        <option value="<%= cls._id %>">
+                            <%= cls.ClassName %>
+                        </option>
+                        <% }) %>
+                </select>
+                <!-- select subject -->
+                <div id="subject-section2" style="display: none;">
+                    <p>Select Subject:</p>
+                    <div id="subject-options2">
+
+                    </div>
+                </div>
+                <button id="btn2" disabled>get report</button>
+                <div id="student-section2" style="display: none;">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/get-report.js"></script>
+
+</body>
+
+</html>
