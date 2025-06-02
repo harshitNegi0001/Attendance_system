@@ -58,20 +58,20 @@ deleteBtn.addEventListener('click', async () => {
                         'Content-Type': 'application/json'
                     },
                     body: JSON.stringify({
-                        RollNo:delRoll
+                        RollNo: delRoll
                     })
                 })
+                const result = await response.json();
                 if (!response.ok) {
-                const errText = await response.text();
-                throw new Error(`HTTP ${response.status}: ${errText}`);
-            }
-            else {
-                alert("Student deleted");
-            }
+                    throw new Error(result.error || 'Unknown error');
+                }
+                else {
+                    alert("Student deleted");
+                }
 
             }
             catch (e) {
-                alert('error! : ', e.message);
+                alert('error! : ' + e.message);
             }
         }
         else {

@@ -5,11 +5,11 @@ import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 import session from 'express-session';
 // import { error } from 'console';
-import { Class } from '../attendace_database/class_schema.js';
-import { checkId } from "../attendace_database/checkId_schema.js"
-import { Student } from "../attendace_database/student_schema.js"
-import { Subject } from '../attendace_database/subject_schema.js';
-import { Attendance } from '../attendace_database/attendance_schema.js';
+import { Class } from '../Backend/attendace_database/class_schema.js';
+import { checkId } from "../Backend/attendace_database/checkId_schema.js"
+import { Student } from "../Backend/attendace_database/student_schema.js"
+import { Subject } from '../Backend/attendace_database/subject_schema.js';
+import { Attendance } from '../Backend/attendace_database/attendance_schema.js';
 
 mongoose.connect("mongodb://localhost:27017/verification")
   .then(() => console.log("connected to collection"))
@@ -22,9 +22,9 @@ const port = 3000;
 app.use(express.json());
 
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static(path.join(__dirname, '../public')));
-app.use(express.static(path.join(__dirname, '../src/assets')));
-app.use(express.static(path.join(__dirname, './frontend-js')));
+app.use(express.static(path.join(__dirname, '../Frontend/StyleSheets')));
+app.use(express.static(path.join(__dirname, '../Frontend/assets')));
+app.use(express.static(path.join(__dirname, '../Frontend/frontend-js')));
 app.use(session({
   secret: 'this-is-admin',
   resave: false,
@@ -34,7 +34,7 @@ app.use(session({
   }
 }));
 
-app.set('views', path.join(__dirname, '../template'));
+app.set('views', path.join(__dirname, '../Frontend/template'));
 app.set(`view engine`, `ejs`);
 
 function isAuthenticated(req, res, next) {
@@ -84,8 +84,8 @@ app.post('/login', async (req, res) => {
 
 app.get('/take-attendance', isAuthenticated, async (req, res) => {
   try {
-    const classes = await Class.find(); 
-    res.render('take-attendance', { classes }); 
+    const classes = await Class.find();
+    res.render('take-attendance', { classes });
   } catch (err) {
     console.error(err);
     res.status(500).send('Server error');
@@ -122,7 +122,7 @@ app.post('/attendance', async (req, res) => {
 
   try {
 
-    
+
     const attendanceData = students.map(({ StudentId, AttendanceStatus }) => ({
       StudentId,
       Date,
@@ -190,24 +190,28 @@ app.post('/add-student', isAuthenticated, async (req, res) => {
 });
 
 app.post('/remove-student', isAuthenticated, async (req, res) => {
-  const { RollNo, confirmRollno } = req.body;
+  const { RollNo } = req.body;
 
-    try {
-      let stu=await Student.findOne({ RollNo:RollNo });
-      await Student.deleteOne({ RollNo:RollNo });
-      await Attendance.deleteMany({StudentId:stu._id})
-    } catch (err) {
-      console.error('Error removing student:', err);
+  try {
+    let stu = await Student.findOne({ RollNo: RollNo });
+    if (!stu) {
+      return res.status(404).json({ error: 'Student not found with Roll No: ' + RollNo });
     }
 
-  res.redirect('/add-student');
+    await Student.deleteOne({ RollNo: RollNo });
+    await Attendance.deleteMany({ StudentId: stu._id })
+  } catch (err) {
+    console.error('Error removing student:', err);
+  }
+
+  res.status(200).json({ message: 'Student deleted successfully' });
 });
 app.post('/api/del-class', async (req, res) => {
   const { classID } = req.body;
   try {
 
     await Class.deleteOne({ _id: classID });
-    await Subject.deleteMany({ClassID: classID});
+    await Subject.deleteMany({ ClassID: classID });
 
     res.status(200).json({ message: 'Class deleted successfully' });
 
@@ -363,16 +367,20 @@ app.post('/api/get-semester-report', async (req, res) => {
             ]
           }
         }
+      },
+      {
+        $sort: { RollNo: 1 }  // 🧠 Sort by RollNo ascending
       }
     ]);
-    console.log(report);
+
     res.json(report);
   } catch (err) {
     console.error('Error generating semester report:', err);
     res.status(500).json({ error: 'Server error' });
   }
 });
-app.get('/promote-student',isAuthenticated,async (req,res)=>{
+
+app.get('/promote-student', isAuthenticated, async (req, res) => {
   try {
     const classes = await Class.find(); // get all classes from DB
     res.render('promote-student', { classes }); // 👈 classes passed to EJS
@@ -382,21 +390,21 @@ app.get('/promote-student',isAuthenticated,async (req,res)=>{
   }
 })
 app.post('/api/shift-students', async (req, res) => {
-    const { studentIds, newClassId } = req.body;
+  const { studentIds, newClassId } = req.body;
 
-    try {
-        await Student.updateMany(
-            { _id: { $in: studentIds } },
-            { $set: { ClassId: newClassId } }
-        );
-        await Attendance.deleteMany({
-            StudentId: { $in: studentIds }
-        });
-        res.status(200).send("Students shifted");
-    } catch (err) {
-        console.error("Shift error:", err);
-        res.status(500).send("Internal Server Error");
-    }
+  try {
+    await Student.updateMany(
+      { _id: { $in: studentIds } },
+      { $set: { ClassId: newClassId } }
+    );
+    await Attendance.deleteMany({
+      StudentId: { $in: studentIds }
+    });
+    res.status(200).send("Students shifted");
+  } catch (err) {
+    console.error("Shift error:", err);
+    res.status(500).send("Internal Server Error");
+  }
 });
 
 
