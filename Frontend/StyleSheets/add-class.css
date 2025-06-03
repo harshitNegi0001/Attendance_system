@@ -1,12 +1,4 @@
-/* #subject-container {
-  display: none;
-  border: 2px solid black;
-  padding: 10px;
-  margin-top: 10px;
-}
-.subject-box{
-    width: 200px;
-} */
+
 .form-container {
   padding: 15px;
   width: 30vw;
@@ -35,16 +27,13 @@
 .form-container input {
   color: white;
   width: 300px;
-  /* height: 30px; */
   background: transparent;
   border: none;
   outline: none;
   font-size: large;
   border-bottom: 1px solid white;
 }
-/* .form-container label{
-  font-size: small;
-} */
+
 .form-container button{
     width: 300px;
     min-height: 40px;

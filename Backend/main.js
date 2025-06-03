@@ -4,14 +4,13 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 import session from 'express-session';
-// import { error } from 'console';
-import { Class } from '../Backend/attendace_database/class_schema.js';
-import { checkId } from "../Backend/attendace_database/checkId_schema.js"
-import { Student } from "../Backend/attendace_database/student_schema.js"
-import { Subject } from '../Backend/attendace_database/subject_schema.js';
-import { Attendance } from '../Backend/attendace_database/attendance_schema.js';
+import { Class } from './attendance_database/class_schema.js';
+import { checkId } from "./attendance_database/checkId_schema.js"
+import { Student } from "./attendance_database/student_schema.js"
+import { Subject } from './attendance_database/subject_schema.js';
+import { Attendance } from './attendance_database/attendance_schema.js';
 
-mongoose.connect("mongodb://localhost:27017/verification")
+mongoose.connect("mongodb://localhost:27017/database")
   .then(() => console.log("connected to collection"))
   .catch((e) => console.log("failed to connect the collection"))
 
@@ -19,8 +18,8 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 const app = express();
 const port = 3000;
-app.use(express.json());
 
+app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, '../Frontend/StyleSheets')));
 app.use(express.static(path.join(__dirname, '../Frontend/assets')));
@@ -50,8 +49,8 @@ function isAuthenticated(req, res, next) {
 app.get('/', async (req, res) => {
   if (req.session.user) {
     try {
-      const classes = await Class.find(); // get all classes from DB
-      res.render('take-attendance', { classes }); // 👈 classes passed to EJS
+      const classes = await Class.find(); 
+      res.render('take-attendance', { classes }); 
     } catch (err) {
       console.error(err);
       res.status(500).send('Server error');
@@ -70,8 +69,8 @@ app.post('/login', async (req, res) => {
   if (user) {
     req.session.user = username;
     try {
-      const classes = await Class.find(); // get all classes from DB
-      res.render('take-attendance', { classes }); // 👈 classes passed to EJS
+      const classes = await Class.find(); 
+      res.render('take-attendance', { classes }); 
     } catch (err) {
       console.error(err);
       res.status(500).send('Server error');
@@ -91,6 +90,7 @@ app.get('/take-attendance', isAuthenticated, async (req, res) => {
     res.status(500).send('Server error');
   }
 });
+
 app.get('/api/subjects', async (req, res) => {
   const classId = req.query.classId;
   if (!classId) return res.status(400).json({ error: 'Missing classId' });
@@ -105,6 +105,7 @@ app.get('/api/subjects', async (req, res) => {
     res.status(500).json({ error: 'Failed to fetch subjects' });
   }
 });
+
 app.get('/api/students', async (req, res) => {
   const ClassId = req.query.classId;
   if (!ClassId) return res.status(400).json({ error: 'Missing classId' });
@@ -117,6 +118,7 @@ app.get('/api/students', async (req, res) => {
     res.status(500).json({ error: 'Failed to fetch students' });
   }
 });
+
 app.post('/attendance', async (req, res) => {
   const { Date, SubjectId, students } = req.body;
 
@@ -144,26 +146,28 @@ app.post('/attendance', async (req, res) => {
 
 app.get('/get-report', isAuthenticated, async (req, res) => {
   try {
-    const classes = await Class.find(); // get all classes from DB
-    res.render('get-report', { classes }); // 👈 classes passed to EJS
+    const classes = await Class.find(); 
+    res.render('get-report', { classes }); 
   } catch (err) {
     console.error(err);
     res.status(500).send('Server error');
   }
 })
+
 app.get('/add-student', isAuthenticated, async (req, res) => {
   try {
-    const classes = await Class.find(); // get all classes from DB
-    res.render('add-student', { classes }); // 👈 classes passed to EJS
+    const classes = await Class.find();
+    res.render('add-student', { classes }); 
   } catch (err) {
     console.error(err);
     res.status(500).send('Server error');
   }
 })
+
 app.get('/add-class', isAuthenticated, async (req, res) => {
   try {
-    const classes = await Class.find(); // get all classes from DB
-    res.render('add-class', { classes }); // 👈 classes passed to EJS
+    const classes = await Class.find(); 
+    res.render('add-class', { classes }); 
   } catch (err) {
     console.error(err);
     res.status(500).send('Server error');
@@ -176,8 +180,8 @@ app.post('/add-student', isAuthenticated, async (req, res) => {
     const student = new Student({ RollNo, Name, Email, ClassId });
     await student.save();
     try {
-      const classes = await Class.find(); // get all classes from DB
-      res.render('add-student', { classes }); // 👈 classes passed to EJS
+      const classes = await Class.find(); 
+      res.render('add-student', { classes }); 
     } catch (err) {
       console.error(err);
       res.status(500).send('Server error');
@@ -197,15 +201,15 @@ app.post('/remove-student', isAuthenticated, async (req, res) => {
     if (!stu) {
       return res.status(404).json({ error: 'Student not found with Roll No: ' + RollNo });
     }
-
+    res.status(200).json({ message: 'Student deleted successfully' });
     await Student.deleteOne({ RollNo: RollNo });
     await Attendance.deleteMany({ StudentId: stu._id })
   } catch (err) {
     console.error('Error removing student:', err);
+    res.status(500).send('Internal Server Error');
   }
-
-  res.status(200).json({ message: 'Student deleted successfully' });
 });
+
 app.post('/api/del-class', async (req, res) => {
   const { classID } = req.body;
   try {
@@ -225,21 +229,22 @@ app.post('/api/del-class', async (req, res) => {
     }
   }
 
-})
+});
+
 app.post('/add-class', isAuthenticated, async (req, res) => {
   const { className, subjects } = req.body;
 
-  // Validation
+  
   if (!className || !Array.isArray(subjects) || subjects.length === 0) {
     return res.status(400).json({ message: 'Class name and subjects are required' });
   }
 
   try {
-    // Step 1: Create Class
+    
     const newClass = new Class({ ClassName: className });
     const savedClass = await newClass.save();
 
-    // Step 2: Add Subjects with ClassID reference
+    
     const subjectDocs = subjects.map(name => ({
       SubjectName: name,
       ClassID: savedClass._id
@@ -261,7 +266,6 @@ app.post('/add-class', isAuthenticated, async (req, res) => {
 });
 
 
-// get-report 
 app.post('/api/get-st-report', async (req, res) => {
   const { Date: dateStr, SubjectId } = req.body;
 
@@ -275,14 +279,14 @@ app.post('/api/get-st-report', async (req, res) => {
       },
       {
         $lookup: {
-          from: 'Student', // collection name in MongoDB (should be lowercase plural)
+          from: 'Student',
           localField: 'StudentId',
           foreignField: '_id',
           as: 'student'
         }
       },
       {
-        $unwind: '$student' // Converts the student array to a single object
+        $unwind: '$student' 
       },
       {
         $project: {
@@ -294,7 +298,7 @@ app.post('/api/get-st-report', async (req, res) => {
           student: {
             Name: '$student.Name',
             RollNo: '$student.RollNo',
-            Email: '$student.Email' // optional
+            Email: '$student.Email' 
           }
         }
       }
@@ -369,7 +373,7 @@ app.post('/api/get-semester-report', async (req, res) => {
         }
       },
       {
-        $sort: { RollNo: 1 }  // 🧠 Sort by RollNo ascending
+        $sort: { RollNo: 1 }  
       }
     ]);
 
@@ -382,13 +386,14 @@ app.post('/api/get-semester-report', async (req, res) => {
 
 app.get('/promote-student', isAuthenticated, async (req, res) => {
   try {
-    const classes = await Class.find(); // get all classes from DB
-    res.render('promote-student', { classes }); // 👈 classes passed to EJS
+    const classes = await Class.find(); 
+    res.render('promote-student', { classes }); 
   } catch (err) {
     console.error(err);
     res.status(500).send('Server error');
   }
-})
+});
+
 app.post('/api/shift-students', async (req, res) => {
   const { studentIds, newClassId } = req.body;
 

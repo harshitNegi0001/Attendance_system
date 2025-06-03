@@ -2,7 +2,6 @@ const addSubjectBtn = document.getElementById('add-subject-btn');
 const subjectContainer = document.getElementById('subject-container');
 const submitBtn = document.getElementById('submit-class-btn');
 
-// Add subject input box dynamically
 addSubjectBtn.addEventListener('click', () => {
     if (subjectContainer.style.display != 'flex') {
         
@@ -73,5 +72,4 @@ delBtn.addEventListener('click',async()=>{
     });
     const result = await response.json();
     alert(result.message || 'Class deleted!');
-})
-
+});
