@@ -10,7 +10,7 @@ import { Student } from "./attendance_database/student_schema.js"
 import { Subject } from './attendance_database/subject_schema.js';
 import { Attendance } from './attendance_database/attendance_schema.js';
 
-mongoose.connect("mongodb://localhost:27017/database")
+mongoose.connect("mongodb+srv://realmiphone0001:<db_password>@cluster0.brgo1fa.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
   .then(() => console.log("connected to collection"))
   .catch((e) => console.log("failed to connect the collection"))
 
