@@ -9,7 +9,12 @@
 </head>
 
 <body>
+    <div class="cread-div">
+                <span>Username : csdsbadmin001</span>
+                <span >Password : csdsbadmin123@#</span>
+            </div>
     <section>
+
         <form action="/login" method="post">
             
             
@@ -18,10 +23,12 @@
             <div class="inputbox">
                 <input type="text" id="username" name="username" autocomplete="off" required>
                 <label for="username">Username</label>
+                
             </div>
             <div class="inputbox">
                 <input type="password" id="password" name="password" autocomplete="off" required>
                 <label for="password">Password</label>
+                
             </div>
             <% if (typeof error !=='undefined') {%>
                 <p class="error"><%= error %></p>

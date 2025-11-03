@@ -37,7 +37,7 @@ submitBtn.addEventListener('click', async () => {
                 alert("student added");
             }
         } catch (e) {
-            alert('error!:  ', e.message)
+            alert('error!: server not respond '+ e.message());
         }
     }
 });

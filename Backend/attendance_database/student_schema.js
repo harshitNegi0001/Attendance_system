@@ -20,7 +20,7 @@ const studentSchema = new mongoose.Schema({
          ref:'Class',
         required:true
     }
-})
+});
 
 export const Student = mongoose.model('Student',studentSchema,'Student');
 

@@ -5,11 +5,16 @@ import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 import session from 'express-session';
 import { Class } from './attendance_database/class_schema.js';
-import { checkId } from "./attendance_database/checkId_schema.js"
-import { Student } from "./attendance_database/student_schema.js"
+import { checkId } from "./attendance_database/checkId_schema.js";
+import { Student } from "./attendance_database/student_schema.js";
 import { Subject } from './attendance_database/subject_schema.js';
 import { Attendance } from './attendance_database/attendance_schema.js';
+<<<<<<< HEAD
 
+=======
+//mongodb://localhost:27017/database
+// mongodb+srv://realmiphone0001:o3LmAfbEQuI5axYS@database.bgvxppq.mongodb.net/?retryWrites=true&w=majority&appName=Database
+>>>>>>> 03f68f6 (3-nov-2025)
 mongoose.connect("mongodb+srv://realmiphone0001:o3LmAfbEQuI5axYS@database.bgvxppq.mongodb.net/?retryWrites=true&w=majority&appName=Database")
   .then(() => console.log("connected to collection"))
   .catch((e) => console.log("failed to connect the collection"))
@@ -76,9 +81,9 @@ app.post('/login', async (req, res) => {
       res.status(500).send('Server error');
     }
   } else {
-    res.render('login', { error: "invalid username or password" });
+    res.render('login', { error: "invalid username or password"  });
   }
-})
+});
 
 
 app.get('/take-attendance', isAuthenticated, async (req, res) => {
@@ -152,7 +157,7 @@ app.get('/get-report', isAuthenticated, async (req, res) => {
     console.error(err);
     res.status(500).send('Server error');
   }
-})
+});
 
 app.get('/add-student', isAuthenticated, async (req, res) => {
   try {
@@ -162,7 +167,7 @@ app.get('/add-student', isAuthenticated, async (req, res) => {
     console.error(err);
     res.status(500).send('Server error');
   }
-})
+});
 
 app.get('/add-class', isAuthenticated, async (req, res) => {
   try {
@@ -172,7 +177,7 @@ app.get('/add-class', isAuthenticated, async (req, res) => {
     console.error(err);
     res.status(500).send('Server error');
   }
-})
+});
 
 app.post('/add-student', isAuthenticated, async (req, res) => {
   const { RollNo, Name, Email, ClassId } = req.body;

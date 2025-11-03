@@ -33,6 +33,29 @@
     <!-- Main Page -->
     <div id="main-content" class=" m1 rounded p1">
         <div class="container flex-c">
+            <!-- Generate overall semester report -->
+            <h2>Semester Report</h2>
+            <div class="sem-report">
+                <!-- select class -->
+                <select id="class-select2">
+                    <option value="">-- Select Class --</option>
+                    <% classes.forEach(cls=> { %>
+                        <option value="<%= cls._id %>">
+                            <%= cls.ClassName %>
+                        </option>
+                        <% }) %>
+                </select>
+                <!-- select subject -->
+                <div id="subject-section2" style="display: none;">
+                    <p>Select Subject:</p>
+                    <div id="subject-options2">
+
+                    </div>
+                </div>
+                <button id="btn2" disabled>get report</button>
+                <div id="student-section2" style="display: none;">
+                </div>
+            </div>
             <h2>Daily Report</h2>
 
             <!-- Generate report by date and subject -->
@@ -67,29 +90,7 @@
                 </div>
             </div>
 
-            <!-- Generate overall semester report -->
-            <h2>Semester Report</h2>
-            <div class="sem-report">
-                <!-- select class -->
-                <select id="class-select2">
-                    <option value="">-- Select Class --</option>
-                    <% classes.forEach(cls=> { %>
-                        <option value="<%= cls._id %>">
-                            <%= cls.ClassName %>
-                        </option>
-                        <% }) %>
-                </select>
-                <!-- select subject -->
-                <div id="subject-section2" style="display: none;">
-                    <p>Select Subject:</p>
-                    <div id="subject-options2">
-
-                    </div>
-                </div>
-                <button id="btn2" disabled>get report</button>
-                <div id="student-section2" style="display: none;">
-                </div>
-            </div>
+            
         </div>
     </div>
 
