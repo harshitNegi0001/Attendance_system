@@ -9,12 +9,6 @@ import { checkId } from "./attendance_database/checkId_schema.js";
 import { Student } from "./attendance_database/student_schema.js";
 import { Subject } from './attendance_database/subject_schema.js';
 import { Attendance } from './attendance_database/attendance_schema.js';
-<<<<<<< HEAD
-
-=======
-//mongodb://localhost:27017/database
-// mongodb+srv://realmiphone0001:o3LmAfbEQuI5axYS@database.bgvxppq.mongodb.net/?retryWrites=true&w=majority&appName=Database
->>>>>>> 03f68f6 (3-nov-2025)
 mongoose.connect("mongodb+srv://realmiphone0001:o3LmAfbEQuI5axYS@database.bgvxppq.mongodb.net/?retryWrites=true&w=majority&appName=Database")
   .then(() => console.log("connected to collection"))
   .catch((e) => console.log("failed to connect the collection"))
